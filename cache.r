@@ -7,14 +7,27 @@ functions do
 ## cache its inverse for the input (which is an invertible square matrix)
 
 makeCacheMatrix <- function(x = matrix()) {
-
-  inv <- NULL
-  set <- function(y) {
-    x <<- y
-    inv <<- NULL
+  j <- NULL
+  set <- function(y){
+  x <<- y
+  j <<- NULL
   }
-  get <- function() x
-  setinv <- function(inverse) inv <<- inverse
-  getinv <- function() inv
-  list(set = set, get = get, setinv = setinv, getinv = getinv)
+  get <- function()x
+  setInverse <- function(inverse) j <<- inverse
+  getInverse <- function() j 
+  list(set = set, get = get, 
+  setInverse = setInverse, 
+  getInverse = getInverse)
+}
+cacheSolve <- function(x, ...) {
+## Return a matrix that is the inverse of 'x'
+  j <- x$getInverse()
+  if(!is.null(j)){
+  message("getting cached data")
+  return(j)
+  }
+  mat <- x$get()
+  j <- solve(mat,...)
+  x$setInverse(j)
+  j
 }
